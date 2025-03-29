@@ -47,7 +47,7 @@ public class SextantController : MonoBehaviour
         );
 
         upwardCamera.transform.localRotation = Quaternion.Euler(
-            -sextantAngle,
+            -sextantAngle*1.5F,
             upwardCamera.transform.localRotation.eulerAngles.y,
             upwardCamera.transform.localRotation.eulerAngles.z
         );
