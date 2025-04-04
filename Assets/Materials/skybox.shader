@@ -66,8 +66,8 @@ Shader "Custom/skybox"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.wsDir = WorldSpaceViewDir(v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex*1000);
+                o.wsDir = WorldSpaceViewDir(v.vertex*1000);
                 return o;
             }
 
@@ -103,7 +103,7 @@ Shader "Custom/skybox"
                 );
                 float2 starUV = float2(
                     atan2(skyxz.x, skyxz.y) / (2*3.1415) + 0.5,
-                    dot(skyDir, _RotationAxis)
+                    dot(skyDir, _RotationAxis)/(2*3.1415)
                 );
                 float cellstr = pow(1 - tex2D(_StarCells, starUV).r, 2);
                 float starStren = pow(map(wsDir.y, horizonStrength*3 - .8, 1, 0, .5), 2) * (1 - baseSkyStr);

@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) { input += Vector3.left; }
         if (Input.GetKey(KeyCode.S)) { input += Vector3.back; }
         if (Input.GetKey(KeyCode.D)) { input += Vector3.right; }
+        var oldPos = transform.position;
         charController.Move(transform.rotation*input*10f * Time.deltaTime);
+        sextant.transform.position += transform.position - oldPos;
 
         sextant.focusing = Input.GetKey(KeyCode.LeftShift);
         sextant.targetLocation = sextant.focusing ? eyePoint : hipPoint;

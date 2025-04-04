@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [ExecuteAlways]
 public class SunController : MonoBehaviour
@@ -16,6 +17,8 @@ public class SunController : MonoBehaviour
     private Quaternion initialRotation;
     public Quaternion skyRotationQuaternion;
     public Quaternion skyInvRotationQuaternion;
+    private Light dirlight;
+    private float startingIntensity;
     public float time;
     public int timeSpeed = 1;
     void OnEnable() {
@@ -26,10 +29,13 @@ public class SunController : MonoBehaviour
             initialFoamColor = oceanMaterial.GetColor("_SurfaceFoamColor");
             initialCaveColor = oceanMaterial.GetColor("_CaveColor");
         }
+        dirlight = GetComponent<Light>();
+        startingIntensity = dirlight.intensity;
         initialRotation = transform.rotation;
         foreach (var r in rotationAxis.GetComponentsInChildren<Renderer>()) {
             r.enabled = false;
         }
+        time = 0;
     }
     void Update() {
         if (Input.GetKeyDown(KeyCode.RightArrow)) { timeSpeed += 1; }
@@ -50,6 +56,8 @@ public class SunController : MonoBehaviour
             oceanMaterial.SetColor("_HorizonColor",     Color.Lerp(Color.black, initialHorizonColor, dayT));
             oceanMaterial.SetColor("_SurfaceFoamColor", Color.Lerp(Color.black, initialFoamColor, dayT));
             oceanMaterial.SetColor("_CaveColor",        Color.Lerp(Color.black, initialCaveColor, dayT));
+
+            dirlight.intensity = startingIntensity * dayT + .01f;
         }
     }
 }

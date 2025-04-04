@@ -681,10 +681,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 172.3997802734375,
-            "y": -194.0,
-            "width": 228.800048828125,
-            "height": 349.60009765625
+            "x": 172.00006103515626,
+            "y": -194.00001525878907,
+            "width": 227.00003051757813,
+            "height": 350.0000305175781
         }
     },
     "m_Slots": [
@@ -718,6 +718,7 @@
     "m_SourceType": 0,
     "m_FunctionName": "MainLighting",
     "m_FunctionSource": "9ec46a2fd8a98924e9af6e1cf4be7007",
+    "m_FunctionSourceUsePragmas": true,
     "m_FunctionBody": "Enter function body here..."
 }
 
@@ -2080,10 +2081,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 532.400146484375,
-            "y": 3.599609375,
-            "width": 144.7998046875,
-            "height": 117.60009765625
+            "x": 543.0,
+            "y": 5.000021934509277,
+            "width": 208.00006103515626,
+            "height": 302.0000305175781
         }
     },
     "m_Slots": [
@@ -2099,7 +2100,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -2212,7 +2213,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -2473,8 +2474,8 @@
     "m_ObjectId": "a3298a8d2bde47dbbf89d4059ea8215d",
     "m_Title": "ILUMINACION",
     "m_Position": {
-        "x": -1069.5999755859375,
-        "y": 4894.39990234375
+        "x": -1801.000244140625,
+        "y": -605.0000610351563
     }
 }
 
@@ -2711,7 +2712,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -2906,7 +2907,7 @@
     "m_StageCapability": 2,
     "m_BareResource": false,
     "m_Texture": {
-        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_SerializedTexture": "",
         "m_Guid": ""
     },
     "m_DefaultType": 0
@@ -3280,10 +3281,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 172.3997802734375,
-            "y": 199.60009765625,
-            "width": 258.400146484375,
-            "height": 373.599609375
+            "x": 172.00006103515626,
+            "y": 206.99998474121095,
+            "width": 256.0,
+            "height": 374.00006103515627
         }
     },
     "m_Slots": [
@@ -3320,6 +3321,7 @@
     "m_SourceType": 0,
     "m_FunctionName": "AdditionalLighting",
     "m_FunctionSource": "9ec46a2fd8a98924e9af6e1cf4be7007",
+    "m_FunctionSourceUsePragmas": true,
     "m_FunctionBody": "Enter function body here..."
 }
 

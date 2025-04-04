@@ -2,7 +2,7 @@ float LightingSpecular(float3 L, float3 N, float3 V, float smoothness)
 {
     float3 H = SafeNormalize(float3(L) + float3(V));
     float NdotH = saturate(dot(N, H));
-    return pow(NdotH, smoothness);
+    return pow(NdotH, smoothness)*clamp((L.y + .15)*4, 0, 1);
 }
 
 void MainLighting_float(float3 normalWS, float3 positionWS, float3 viewWS, float smoothness, out float specular)
