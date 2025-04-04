@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = transform.rotation.eulerAngles + Vector3.up * Input.mousePositionDelta.x*.06f;
             float xAng = cam.transform.localEulerAngles.x > 180 ? cam.transform.localEulerAngles.x - 360 : cam.transform.localEulerAngles.x;
             cam.transform.localEulerAngles = new Vector3(
-                Mathf.Clamp(xAng + Input.mousePositionDelta.y*-.1f + 90, 5, 175) - 90,
+                Mathf.Clamp(xAng + Input.mousePositionDelta.y*-.06f + 90, 5, 175) - 90,
                 0,
                 0
             );
