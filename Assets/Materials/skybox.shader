@@ -112,8 +112,15 @@ Shader "Custom/skybox"
                 col += clamp(map(cellstr, 1 - starStren, 1, 0, starStren), 0, 1) * float4(starCol, 0) * twinkle;
 
                 // Sun
-                float3 sunColor = saturate(map(dot(wsLightDir, wsDir), .999, 1, 0, 1)) * float3(3, 1, .6);
+                float SUN_RAD = .003;
+                float SUN_HALORAD = .1;
+                float3 sunColor = saturate(map(dot(wsLightDir, wsDir), 1 - SUN_RAD, 1, 0, 1)) * float3(3, 1, .6) * 40;
                 col += float4(sunColor, 0);
+
+                // Sun halo
+                float haloT = (clamp(dot(wsLightDir, wsDir), 1-SUN_RAD-SUN_HALORAD, 1-SUN_RAD) - (1-SUN_RAD-SUN_HALORAD)) / SUN_HALORAD;
+                float3 haloColor = pow(haloT, 2) * float3(3, 1, .6) * map(wsLightDir.y, .0, 1, .05, .75);
+                col += float4(haloColor, 0);
 
                 // Moon
                 float3 moonColor = saturate(map(dot(_MoonDir.xyz, skyDir), .999, 1, 0, 6)) * float3(.7, .5, .2);
