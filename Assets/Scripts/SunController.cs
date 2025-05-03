@@ -4,6 +4,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 [ExecuteAlways]
 public class SunController : MonoBehaviour
 {
+    public static SunController instance;
     public float dayLength = 120;
     public float maxYRot = 80;
     public float maxXRot = 80;
@@ -22,6 +23,7 @@ public class SunController : MonoBehaviour
     public float time;
     public int timeSpeed = 1;
     void OnEnable() {
+        instance = this;
         if (Application.isPlaying) {
             oceanMaterial = oceanRenderer.sharedMaterial = new Material(oceanRenderer.sharedMaterial);
             initialShallowColor = oceanMaterial.GetColor("_ShallowColor");
