@@ -68,8 +68,8 @@ Shader "Custom/water"
                 float2 waveXZ = mul(unity_ObjectToWorld, v.vertex).xz;
                 o.height = heightAt(waveXZ);
                 float3 normalOffset = dirAt(waveXZ);
-                o.wsPos = mul(unity_ObjectToWorld, v.vertex).xyz + float3(0, o.height, 0) + normalOffset*2;
-                o.vertex = UnityObjectToClipPos(v.vertex + float3(0, o.height, 0) + normalOffset*2);
+                o.wsPos = mul(unity_ObjectToWorld, v.vertex).xyz + float3(0, o.height, 0) + normalOffset*1.5;
+                o.vertex = UnityObjectToClipPos(mul(unity_WorldToObject, float4(o.wsPos, 1)).xyz);
 
                 o.normal = normalize(float3(0, 1, 0) + .04*normalOffset);
                 return o;

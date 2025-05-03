@@ -12,7 +12,7 @@ public class SkyboxController : MonoBehaviour
         mat = GetComponent<MeshRenderer>().sharedMaterial;
         sunDir = dirLight.forward;
         if (Application.isPlaying) {
-            GetComponent<MeshRenderer>().bounds = new Bounds(Vector3.zero, Vector3.one * 1000);
+            GetComponent<MeshRenderer>().bounds = new Bounds(Vector3.zero, Vector3.one * 3000);
         }
     }
     void LateUpdate() {

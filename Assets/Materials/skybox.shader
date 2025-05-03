@@ -66,8 +66,8 @@ Shader "Custom/skybox"
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex*1000);
-                o.wsDir = WorldSpaceViewDir(v.vertex*1000);
+                o.vertex = UnityObjectToClipPos(v.vertex*3000);
+                o.wsDir = WorldSpaceViewDir(v.vertex*3000);
                 return o;
             }
 

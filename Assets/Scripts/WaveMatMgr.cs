@@ -31,41 +31,78 @@ public class EnemyShootScreenEditor : Editor {
             } else {
                 var prefab = GameObject.Instantiate(t.gameObject);
                 DestroyImmediate(prefab.GetComponent<WaveMatMgr>());
-                var f = prefab.GetComponent<MeshFilter>();
-                f.sharedMesh.bounds = new Bounds(Vector3.up * 10, Vector3.one*100);
+                int planeCount = 0;
 
-                for (int x = -12; x < 12; x++) {
-                    for (int z = -12; z < 12; z++) {
+                for (int x = -11; x < 11; x++) {
+                    for (int z = -11; z < 11; z++) {
+                        planeCount++;
                         var s = GameObject.Instantiate(prefab);
                         s.transform.SetParent(transform);
                         s.transform.localPosition = new Vector3(x, 0, z) * 5f;
                         s.transform.localScale = new Vector3(.5f, 1f, .5f);
+                        var r = s.GetComponent<MeshRenderer>();
+                        r.bounds = new Bounds(r.bounds.center + Vector3.up * 10, new Vector3(40, 80, 40));
                     }
                 }
 
-                for (int x = -12; x < 12; x++) {
-                    for (int z = -12; z < 12; z++) {
+                for (int x = -11; x < 11; x++) {
+                    for (int z = -11; z < 11; z++) {
                         if (x >= -5 && x < 5 && z >= -5 && z < 5) { continue; }
+                        planeCount++;
                         var s = GameObject.Instantiate(prefab);
                         s.transform.SetParent(transform);
-                        s.transform.localPosition = new Vector3(x + .25f, 0, z + .25f) * 10f;
+                        float offset = .25f;
+                        s.transform.localPosition = new Vector3(x + offset, 0, z + offset) * 10f;
                         s.transform.localScale = new Vector3(1f, 1f, 1f);
                         var r = s.GetComponent<MeshRenderer>();
                         r.bounds = new Bounds(r.bounds.center + Vector3.up * 10, new Vector3(40, 80, 40)*2);
                     }
                 }
 
-                for (int x = -12; x < 12; x++) {
-                    for (int z = -12; z < 12; z++) {
+                for (int x = -9; x < 9; x++) {
+                    for (int z = -9; z < 9; z++) {
                         if (x >= -5 && x < 5 && z >= -5 && z < 5) { continue; }
+                        planeCount++;
                         var s = GameObject.Instantiate(prefab);
                         s.transform.SetParent(transform);
-                        s.transform.localPosition = new Vector3(x + .375f, 0, z + .375f) * 20f;
+                        float offset = .25f + .125f;
+                        s.transform.localPosition = new Vector3(x + offset, 0, z + offset) * 20f;
                         s.transform.localScale = new Vector3(2f, 1f, 2f);
                         var r = s.GetComponent<MeshRenderer>();
-                        r.bounds = new Bounds(r.bounds.center + Vector3.up * 10, new Vector3(40, 80, 40)*2);
+                        r.bounds = new Bounds(r.bounds.center + Vector3.up * 10, new Vector3(40, 80, 40)*4);
                     }
                 }
+
+                for (int x = -5; x < 5; x++) {
+                    for (int z = -5; z < 5; z++) {
+                        if (x >= -1 && x < 1 && z >= -1 && z < 1) { continue; }
+                        planeCount++;
+                        var s = GameObject.Instantiate(prefab);
+                        s.transform.SetParent(transform);
+                        float offset = .25f + .125f + .0625f + .03125f + .03125f*.5f;
+                        s.transform.localPosition = new Vector3(x + offset, 0, z + offset) * 160f;
+                        s.transform.localScale = new Vector3(16f, 1f, 16f);
+                        var r = s.GetComponent<MeshRenderer>();
+                        r.bounds = new Bounds(r.bounds.center + Vector3.up * 10, new Vector3(40, 80, 40)*16);
+                    }
+                }
+
+                for (int x = -5; x < 5; x++) {
+                    for (int z = -5; z < 5; z++) {
+                        if (x >= -1 && x < 1 && z >= -1 && z < 1) { continue; }
+                        if (Mathf.Abs(x*2 + 1) + Mathf.Abs(z*2 + 1) > 8) { continue; }
+                        planeCount++;
+                        var s = GameObject.Instantiate(prefab);
+                        s.transform.SetParent(transform);
+                        float offset = .25f + .125f + .0625f + .03125f + .03125f*.5f + .03125f*.25f + .03125f*.125f;
+                        s.transform.localPosition = new Vector3(x + offset, 0, z + offset) * 640f;
+                        s.transform.localScale = new Vector3(64f, 1f, 64f);
+                        var r = s.GetComponent<MeshRenderer>();
+                        r.bounds = new Bounds(r.bounds.center + Vector3.up * 10, new Vector3(40, 80, 40)*16);
+                    }
+                }
+
+                Debug.Log($"Tri count: {planeCount * 200}");
 
                 DestroyImmediate(prefab);
             }
@@ -78,10 +115,11 @@ public class EnemyShootScreenEditor : Editor {
 public class WaveMatMgr : MonoBehaviour
 {
     public Vector4[] waves = new Vector4[128];
+    public int targetWaveCount = 128;
     void Update() {
         var mat = GetComponent<MeshRenderer>().sharedMaterial;
         mat.SetVectorArray("_Waves", waves);
-        mat.SetInt("_WaveCount", 128);
+        mat.SetInt("_WaveCount", targetWaveCount);
         mat.SetVector("_MainLightDir", SunController.instance.transform.forward);
     }
 }
