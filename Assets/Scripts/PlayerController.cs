@@ -4,6 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     private Camera cam;
     private CharacterController charController;
     public Transform eyePoint;
@@ -12,19 +13,27 @@ public class PlayerController : MonoBehaviour
     private bool mousePressed = false;
     public Image hoverPip;
     public LayerMask btnLayer;
+    public float boatYDrift;
     void Start() {
         cam = Camera.main;
         charController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
-    void Update() {
+    void OnEnable() {
+        instance = this;
+    }
+    void LateUpdate() {
         Vector3 input = Vector3.zero;
         if (Input.GetKey(KeyCode.W)) { input += Vector3.forward; }
         if (Input.GetKey(KeyCode.A)) { input += Vector3.left; }
         if (Input.GetKey(KeyCode.S)) { input += Vector3.back; }
         if (Input.GetKey(KeyCode.D)) { input += Vector3.right; }
         var oldPos = transform.position;
-        charController.Move(transform.rotation*input*10f * Time.deltaTime);
+        charController.enabled = false;
+        transform.position += boatYDrift * Vector3.up;
+        boatYDrift = 0;
+        charController.enabled = true;
+        charController.Move((transform.rotation*input*10f + Vector3.down*5f) * Time.deltaTime);
         sextant.transform.position += transform.position - oldPos;
 
         sextant.focusing = mousePressed || Input.GetKey(KeyCode.LeftShift);

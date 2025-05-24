@@ -23,6 +23,7 @@ Shader "Custom/water"
             int _WaveCount;
 
             float3 _MainLightDir;
+            float _WaveTime;
 
             struct appdata
             {
@@ -38,11 +39,15 @@ Shader "Custom/water"
                 float3 wsPos : TEXCOORD2;
             };
 
+            float getWaveT(float2 xz, float4 wave) {
+                return dot(xz*pow(wave.w + 1, 1.5)/16.0, normalize(wave.xy)) + wave.z + (1 + wave.w/3)*_WaveTime*.25;
+            }
+
             float heightAt(float2 xz) {
                 float h = 0;
                 for (int waveI = 0; waveI < _WaveCount; waveI++) {
                     float4 wave = _Waves[waveI];
-                    float t = dot(xz*wave.w/16.0, normalize(wave.xy)) + wave.z + (1 + wave.w/3)*_Time.w*.25;
+                    float t = getWaveT(xz, wave);
                     h += .25 * sin(t) / wave.w;
                 }
                 return h;
@@ -52,8 +57,8 @@ Shader "Custom/water"
                 float3 dir = float3(0, 0, 0);
                 for (int waveI = 0; waveI < _WaveCount; waveI++) {
                     float4 wave = _Waves[waveI];
-                    float t = dot(xz*wave.w/16.0, normalize(wave.xy)) + wave.z + (1 + wave.w/3)*_Time.w*.25;
-                    dir += 1 * normalize(float3(wave.x, 0, wave.y)) * sin(t + 3.14159*.5) / wave.w;
+                    float t = getWaveT(xz, wave);
+                    dir += 1 * normalize(float3(wave.x, 0, wave.y)) * sin(t + 3.14159*.5) / (wave.w + 1);
                 }
                 return dir;
             }
@@ -68,7 +73,7 @@ Shader "Custom/water"
                 float2 waveXZ = mul(unity_ObjectToWorld, v.vertex).xz;
                 o.height = heightAt(waveXZ);
                 float3 normalOffset = dirAt(waveXZ);
-                o.wsPos = mul(unity_ObjectToWorld, v.vertex).xyz + float3(0, o.height, 0) + normalOffset*1.5;
+                o.wsPos = mul(unity_ObjectToWorld, v.vertex).xyz + float3(0, o.height, 0) + normalOffset*.5;
                 o.vertex = UnityObjectToClipPos(mul(unity_WorldToObject, float4(o.wsPos, 1)).xyz);
 
                 o.normal = normalize(float3(0, 1, 0) + .04*normalOffset);
@@ -86,7 +91,8 @@ Shader "Custom/water"
                 c *= sunFactor;
                 float3 wsViewDir = normalize(i.wsPos - _WorldSpaceCameraPos);
                 float3 reflectDir = wsViewDir - 2*i.normal*dot(wsViewDir, i.normal);
-                c += float3(4,2,2) * map(-dot(reflectDir, _MainLightDir), .985, 1, 0, 1) * map(-_MainLightDir.y, -.12, .2, 0, .7);
+                float tightness = map(-_MainLightDir.y, -.08, .1, .9999, .985);
+                c += float3(4,2,2) * map(-dot(reflectDir, _MainLightDir), tightness, 1, 0, 1) * map(-_MainLightDir.y, -.08, .2, 0, .7);
                 return float4(c, 1);
             }
             ENDCG
